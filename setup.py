@@ -28,12 +28,10 @@ setuptools.setup(
     description="Restful connector to tpi-compliance applications",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/X-I-A/xialib-gcs",
+    url="https://github.com/top-infra/tpi-connector",
     packages=setuptools.find_packages(),
     install_requires=[
-        'xialib',
-        'google-auth',
-        'gcsfs',
+        'requests',
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

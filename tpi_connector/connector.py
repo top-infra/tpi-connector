@@ -16,7 +16,7 @@ class TpiRestApi:
             return None
         try:
             return api_req.json()
-        except (UnicodeDecodeError, json.JSONDecLICENSEodeError, TypeError):
+        except (UnicodeDecodeError, json.JSONDecodeError, TypeError):
             return api_req.content
 
     def __init__(self, api_root: str, api_key: str, ssl_verify: bool = False):
