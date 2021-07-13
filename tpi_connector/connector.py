@@ -38,22 +38,24 @@ class TpiRestApi:
             return False
         return True if ping_req.status_code < 300 else False
 
-    def rest_list(self, owner_name: str, resource_type: str,
-                  transaction_id: str = ""):
+    def rest_list(self, owner_name: str, resource_type: str, payload: dict = None, transaction_id: str = ""):
+        payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type])
-        api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id),
+        api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
                                verify=self.ssl_verify, timeout=60)
         return self.get_response(api_req)
 
-    def rest_load(self, owner_name: str, resource_type: str, resource_name: str, payload: dict,
+    def rest_load(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
                   transaction_id: str = ""):
+        payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name])
         api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
                                verify=self.ssl_verify, timeout=60)
         return self.get_response(api_req)
 
-    def rest_new(self, owner_name: str, resource_type: str, resource_name: str, payload: dict,
+    def rest_new(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
                  transaction_id: str = "") -> bool:
+        payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name])
         api_req = requests.post(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
                                 verify=self.ssl_verify, timeout=60)
@@ -66,8 +68,9 @@ class TpiRestApi:
                                   verify=self.ssl_verify, timeout=60)
         return self.get_response(api_req)
 
-    def rest_update(self, owner_name: str, resource_type: str, resource_name: str, payload: dict,
+    def rest_update(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
                     transaction_id: str = "") -> bool:
+        payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name])
         api_req = requests.patch(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
                                  verify=self.ssl_verify, timeout=60)
@@ -94,8 +97,9 @@ class TpiRestApi:
                                verify=self.ssl_verify, timeout=60)
         return self.get_response(api_req)
 
-    def rest_attach(self, owner_name: str, resource_type: str, resource_name: str, payload: dict,
+    def rest_attach(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
                     transaction_id: str = "") -> bool:
+        payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "handler"])
         api_req = requests.post(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
                                 verify=self.ssl_verify, timeout=180)
@@ -108,15 +112,17 @@ class TpiRestApi:
                                   verify=self.ssl_verify, timeout=180)
         return self.get_response(api_req)
 
-    def rest_migrate(self, owner_name: str, resource_type: str, resource_name: str, payload: dict,
+    def rest_migrate(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
                      transaction_id: str = "") -> bool:
+        payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "handler"])
         api_req = requests.put(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
                                verify=self.ssl_verify, timeout=180)
         return self.get_response(api_req)
 
-    def rest_action(self, owner_name: str, resource_type: str, resource_name: str, action: str, payload: dict,
+    def rest_action(self, owner_name: str, resource_type: str, resource_name: str, action: str, payload: dict = None,
                     transaction_id: str = ""):
+        payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "handler", action])
         api_req = requests.post(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
                                 verify=self.ssl_verify, timeout=600)
@@ -129,8 +135,9 @@ class TpiRestApi:
                                   verify=self.ssl_verify, timeout=60)
         return self.get_response(api_req)
 
-    def rest_long_run_task(self, owner_name: str, resource_type: str, resource_name: str, action: str, payload: dict,
-                           transaction_id: str = ""):
+    def rest_long_run_task(self, owner_name: str, resource_type: str, resource_name: str, action: str,
+                           payload: dict = None, transaction_id: str = ""):
+        payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "handler", action])
         headers = self.get_headers(transaction_id)
         try:
