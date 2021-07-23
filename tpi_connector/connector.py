@@ -38,101 +38,103 @@ class TpiRestApi:
             return False
         return True if ping_req.status_code < 300 else False
 
-    def rest_list(self, owner_name: str, resource_type: str, payload: dict = None, transaction_id: str = ""):
+    def rest_list(self, owner_name: str, resource_type: str, payload: dict = None,
+                  transaction_id: str = "", timeout: int = 60):
         payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type])
         api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
-                               verify=self.ssl_verify, timeout=60)
+                               verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_load(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
-                  transaction_id: str = ""):
+                  transaction_id: str = "", timeout: int = 60):
         payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name])
         api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
-                               verify=self.ssl_verify, timeout=60)
+                               verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_new(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
-                 transaction_id: str = "") -> bool:
+                 transaction_id: str = "", timeout: int = 60) -> bool:
         payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name])
         api_req = requests.post(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
-                                verify=self.ssl_verify, timeout=60)
+                                verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_remove(self, owner_name: str, resource_type: str, resource_name: str,
-                    transaction_id: str = "") -> bool:
+                    transaction_id: str = "", timeout: int = 60) -> bool:
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name])
         api_req = requests.delete(api_endpoint, headers=self.get_headers(transaction_id),
-                                  verify=self.ssl_verify, timeout=60)
+                                  verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_update(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
-                    transaction_id: str = "") -> bool:
+                    transaction_id: str = "", timeout: int = 60) -> bool:
         payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name])
         api_req = requests.patch(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
-                                 verify=self.ssl_verify, timeout=60)
+                                 verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
-    def rest_log_read(self, owner_name: str, resource_type: str, resource_name: str, transaction_id: str = "") -> bool:
+    def rest_log_read(self, owner_name: str, resource_type: str, resource_name: str,
+                      transaction_id: str = "", timeout: int = 60) -> bool:
         if transaction_id:
             api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name,
                                      "log", transaction_id])
         else:
             api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "log"])
         api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id),
-                               verify=self.ssl_verify, timeout=60)
+                               verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_transaction_read(self, owner_name: str, resource_type: str, resource_name: str,
-                              transaction_id: str = "") -> bool:
+                              transaction_id: str = "", timeout: int = 60) -> bool:
         if transaction_id:
             api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name,
                                      "transaction", transaction_id])
         else:
             api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "transaction"])
         api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id),
-                               verify=self.ssl_verify, timeout=60)
+                               verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_attach(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
-                    transaction_id: str = "") -> bool:
+                    transaction_id: str = "", timeout: int = 180) -> bool:
         payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "handler"])
         api_req = requests.post(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
-                                verify=self.ssl_verify, timeout=180)
+                                verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_detach(self, owner_name: str, resource_type: str, resource_name: str,
-                    transaction_id: str = "") -> bool:
+                    transaction_id: str = "", timeout: int = 180) -> bool:
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "handler"])
         api_req = requests.delete(api_endpoint, headers=self.get_headers(transaction_id),
-                                  verify=self.ssl_verify, timeout=180)
+                                  verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_migrate(self, owner_name: str, resource_type: str, resource_name: str, payload: dict = None,
-                     transaction_id: str = "") -> bool:
+                     transaction_id: str = "", timeout: int = 180) -> bool:
         payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "handler"])
         api_req = requests.put(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
-                               verify=self.ssl_verify, timeout=180)
+                               verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_action(self, owner_name: str, resource_type: str, resource_name: str, action: str, payload: dict = None,
-                    transaction_id: str = ""):
+                    transaction_id: str = "", timeout: int = 600):
         payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "handler", action])
         api_req = requests.post(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
-                                verify=self.ssl_verify, timeout=600)
+                                verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_unlock_task(self, owner_name: str, resource_type: str, resource_name: str, action: str,
-                         transaction_id: str = ""):
+                         transaction_id: str = "", timeout: int = 60):
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "handler", action])
         api_req = requests.delete(api_endpoint, headers=self.get_headers(transaction_id),
-                                  verify=self.ssl_verify, timeout=60)
+                                  verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
     def rest_long_run_task(self, owner_name: str, resource_type: str, resource_name: str, action: str,
