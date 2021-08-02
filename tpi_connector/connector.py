@@ -155,3 +155,11 @@ class TpiRestApi:
         else:
             self.rest_unlock_task(owner_name, resource_type, resource_name, action, transaction_id)
             return {"task_status": "failed", "transaction_id": headers.get("TPI_TRANSACTION_ID", "")}
+
+    def rest_admin(self, owner_name: str, resource_type: str, resource_name: str, action: str, payload: dict = None,
+                   transaction_id: str = "", timeout: int = 600):
+        payload = {} if not payload else payload
+        api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name, "admin", action])
+        api_req = requests.post(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
+                                verify=self.ssl_verify, timeout=timeout)
+        return self.get_response(api_req)
