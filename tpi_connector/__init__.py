@@ -2,4 +2,4 @@ from tpi_connector.connector import TpiRestApi
 
 __all__ = ['TpiRestApi']
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"

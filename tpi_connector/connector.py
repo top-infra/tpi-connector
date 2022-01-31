@@ -42,7 +42,7 @@ class TpiRestApi:
                   transaction_id: str = "", timeout: int = 60):
         payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type])
-        api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
+        api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id),
                                verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
@@ -50,7 +50,7 @@ class TpiRestApi:
                   transaction_id: str = "", timeout: int = 60):
         payload = {} if not payload else payload
         api_endpoint = "/".join([self.api_root, "owner", owner_name, resource_type, resource_name])
-        api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id), json=payload.copy(),
+        api_req = requests.get(api_endpoint, headers=self.get_headers(transaction_id),
                                verify=self.ssl_verify, timeout=timeout)
         return self.get_response(api_req)
 
